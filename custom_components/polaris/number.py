@@ -62,13 +62,17 @@ async def async_setup_entry(
     numberList = []
     
     if (device_type in POLARIS_HUMIDDIFIER_TYPE):
-    # Create humidifier  
+    # Create humidifier
         if device_type in {"835","881"}:
             NUMBER_HUMIDIFIER_LC = copy.deepcopy(NUMBER_RUSCLIMATE_HUMIDIFIER)
         else:
             NUMBER_HUMIDIFIER_LC = copy.deepcopy(NUMBER_HUMIDIFIER)
         for description in NUMBER_HUMIDIFIER_LC:
-            description.mqttTopicCurrent = f"{mqtt_root}/{device_prefix_topic}/{description.mqttTopicCurrent}" 
+            # Fix intensity range for PWD-0804 (devtype 172) - it only supports 1-3
+            if device_type == "172" and description.key == "intensity":
+                description.native_min_value = 1
+                description.native_max_value = 3
+            description.mqttTopicCurrent = f"{mqtt_root}/{device_prefix_topic}/{description.mqttTopicCurrent}"
             description.mqttTopicCommand = f"{mqtt_root}/{device_prefix_topic}/{description.mqttTopicCommand}"
             description.device_prefix_topic = device_prefix_topic
             numberList.append(

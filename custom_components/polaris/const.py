@@ -439,7 +439,7 @@ HUMIDDIFIER_3B_AVAILABLE_MODES = {"auto": "1", "boost": "5", "eco": "7"}
 HUMIDDIFIER_2_AVAILABLE_MODES = {"home": "1", "auto": "2"}
 HUMIDDIFIER_1_AVAILABLE_MODES = {"boost": "5"}
 HUMIDDIFIER_11_AVAILABLE_MODES = {"home": "1", "auto": "2", "sleep": "3", "baby": "4", "comfort": "5", "fitnes": "6", "yoga": "7", "meditation": "8", "prana_hand": "9", "prana_auto": "10", "aroma": "11"}
-HUMIDDIFIER_4A_AVAILABLE_MODES = {"slow": "1", "medium": "2", "fast": "3", "auto": "4"}
+HUMIDDIFIER_4A_AVAILABLE_MODES = {"off": "0", "manual": "1", "auto": "2"}
 
 KETTLE_ERROR = {
 "00": "no_error",

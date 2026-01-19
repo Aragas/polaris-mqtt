@@ -140,9 +140,12 @@ async def async_setup_entry(
                 )
             )
       else:
-      # Create sensors for all devices 
+      # Create sensors for all devices
         SENSORS_ALL_DEVICES_CP = copy.deepcopy(SENSORS_ALL_DEVICES)
         for description in SENSORS_ALL_DEVICES_CP:
+            # Skip temperature sensor for PWD-0804 (devtype 172) as it doesn't have this sensor
+            if (devicetype == "172" and description.translation_key == "temperature_sensor"):
+                continue
             description.mqttTopicCurrentValue = (f"{mqttRoot}/{device_prefix_topic}/state/{description.key}")
             description.device_prefix_topic = device_prefix_topic
             sensorList.append(
@@ -156,18 +159,22 @@ async def async_setup_entry(
             )
         SENSORS_HUMIDIFIER_CP = copy.deepcopy(SENSORS_HUMIDIFIER)
         for description in SENSORS_HUMIDIFIER_CP:
-          if (devicetype != "835" or description.translation_key != "clean_retain"):
-            description.mqttTopicCurrentValue = (f"{mqttRoot}/{device_prefix_topic}/state/{description.key}")
-            description.device_prefix_topic = device_prefix_topic
-            sensorList.append(
-                PolarisSensor(
-                    description=description,
-                    device_friendly_name=deviceID,
-                    mqtt_root=mqttRoot,
-                    device_type=devicetype,
-                    device_id=deviceID,
-                )
-            )
+          # Skip clean_retain for device 835, and skip filter sensors for PWD-0804 (devtype 172)
+          if (devicetype == "835" and description.translation_key == "clean_retain"):
+            continue
+          if (devicetype == "172" and description.translation_key in ("filter_retain", "clean_retain")):
+            continue
+          description.mqttTopicCurrentValue = (f"{mqttRoot}/{device_prefix_topic}/state/{description.key}")
+          description.device_prefix_topic = device_prefix_topic
+          sensorList.append(
+              PolarisSensor(
+                  description=description,
+                  device_friendly_name=deviceID,
+                  mqtt_root=mqttRoot,
+                  device_type=devicetype,
+                  device_id=deviceID,
+              )
+          )
     # Cooker
     if (devicetype in POLARIS_COOKER_TYPE):
         # Create sensors for all devices 

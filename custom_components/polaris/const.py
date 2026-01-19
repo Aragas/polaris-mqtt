@@ -2348,6 +2348,22 @@ NUMBER_HUMIDIFIER = [
         native_min_value=0,
         native_step=1,
         native_value=1,
+    ),
+    PolarisNumberEntityDescription(
+        key="time",
+        name="time_timer",
+        translation_key="time_timer",
+        mqttTopicCurrent = "state/time",
+        mqttTopicCommand = "control/time",
+        entity_category=EntityCategory.CONFIG,
+        device_class=NumberDeviceClass.DURATION,
+        native_unit_of_measurement=UnitOfTime.HOURS,
+        entity_registry_enabled_default=True,
+        native_max_value=12,
+        native_min_value=0,
+        native_step=1,
+        native_value=0,
+        mode="slider",
     )
 ]
 
@@ -3056,6 +3072,30 @@ BINARYSENSOR_AVAILABLE = [
         mqttTopicStatus="state/error/connection",
         device_class=BinarySensorDeviceClass.CONNECTIVITY,
         entity_registry_enabled_default=True,
+    )
+]
+
+BINARYSENSOR_IONISER = [
+    PolarisBinarySensorEntityDescription(
+        key="ioniser",
+        name="ioniser",
+        translation_key="ioniser_binary_sensor",
+        mqttTopicStatus="state/ioniser",
+        device_class=BinarySensorDeviceClass.RUNNING,
+        entity_registry_enabled_default=True,
+        icon="mdi:atom",
+    )
+]
+
+BINARYSENSOR_TURBO = [
+    PolarisBinarySensorEntityDescription(
+        key="turbo",
+        name="turbo",
+        translation_key="turbo_binary_sensor",
+        mqttTopicStatus="state/turbo",
+        device_class=BinarySensorDeviceClass.RUNNING,
+        entity_registry_enabled_default=True,
+        icon="mdi:rocket-launch",
     )
 ]
 

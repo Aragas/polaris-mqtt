@@ -164,21 +164,22 @@ async def async_setup_entry(
                 )
             )
     if (device_type in POLARIS_HUMIDDIFIER_WITH_IONISER_TYPE):
-        # Create switch ioniser for humidifiers
-        SWITCH_HUMIDIFIER_IONISER_LC = copy.deepcopy(SWITCH_HUMIDIFIER_IONISER)
-        for description in SWITCH_HUMIDIFIER_IONISER_LC:
-            description.mqttTopicCommand = f"{mqtt_root}/{device_prefix_topic}/{description.mqttTopicCommand}"
-            description.mqttTopicCurrentValue = f"{mqtt_root}/{device_prefix_topic}/{description.mqttTopicCurrentValue}"
-            description.device_prefix_topic = device_prefix_topic
-            switchList.append(
-                PolarisSwitch(
-                    description=description,
-                    device_friendly_name=device_id,
-                    mqtt_root=mqtt_root,
-                    device_type=device_type,
-                    device_id=device_id
+        # Create switch ioniser for humidifiers (skip 172 as it's read-only)
+        if device_type != "172":
+            SWITCH_HUMIDIFIER_IONISER_LC = copy.deepcopy(SWITCH_HUMIDIFIER_IONISER)
+            for description in SWITCH_HUMIDIFIER_IONISER_LC:
+                description.mqttTopicCommand = f"{mqtt_root}/{device_prefix_topic}/{description.mqttTopicCommand}"
+                description.mqttTopicCurrentValue = f"{mqtt_root}/{device_prefix_topic}/{description.mqttTopicCurrentValue}"
+                description.device_prefix_topic = device_prefix_topic
+                switchList.append(
+                    PolarisSwitch(
+                        description=description,
+                        device_friendly_name=device_id,
+                        mqtt_root=mqtt_root,
+                        device_type=device_type,
+                        device_id=device_id
+                    )
                 )
-            )
     if (device_type in POLARIS_HUMIDDIFIER_WITH_WARM_STREAM_TYPE):
         # Create switch stream warm for humidifiers
         SWITCH_HUMIDIFIER_WARM_STREAM_LC = copy.deepcopy(SWITCH_HUMIDIFIER_WARM_STREAM)

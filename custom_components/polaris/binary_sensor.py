@@ -43,10 +43,13 @@ from .const import (
     BINARYSENSOR_CAPPUCCINATOR,
     BINARYSENSOR_AVAILABLE,
     BINARYSENSOR_THERMOSTAT,
+    BINARYSENSOR_IONISER,
+    BINARYSENSOR_TURBO,
     PolarisBinarySensorEntityDescription,
     POLARIS_KETTLE_TYPE,
     POLARIS_KETTLE_WITH_WEIGHT_TYPE,
     POLARIS_HUMIDDIFIER_TYPE,
+    POLARIS_HUMIDDIFIER_WITH_IONISER_TYPE,
     POLARIS_COOKER_TYPE,
     POLARIS_COOKER_WITH_LID_TYPE,
     POLARIS_COFFEEMAKER_TYPE,
@@ -136,6 +139,35 @@ async def async_setup_entry(
     if (device_type in POLARIS_THERMOSTAT_TYPE):
             BINARYSENSOR_THERMOSTAT_LC = copy.deepcopy(BINARYSENSOR_THERMOSTAT)
             for description in BINARYSENSOR_THERMOSTAT_LC:
+                description.mqttTopicStatus = f"{mqtt_root}/{device_prefix_topic}/{description.mqttTopicStatus}"
+                description.device_prefix_topic = device_prefix_topic
+                binarysensorList.append(
+                    PolarisBinarySensor(
+                        description=description,
+                        device_friendly_name=device_id,
+                        mqtt_root=mqtt_root,
+                        device_type=device_type,
+                        device_id=device_id
+                    )
+                )
+    if (device_type == "172"):
+            # Only create ioniser binary sensor for PWD-0804 (172) as it's read-only
+            BINARYSENSOR_IONISER_LC = copy.deepcopy(BINARYSENSOR_IONISER)
+            for description in BINARYSENSOR_IONISER_LC:
+                description.mqttTopicStatus = f"{mqtt_root}/{device_prefix_topic}/{description.mqttTopicStatus}"
+                description.device_prefix_topic = device_prefix_topic
+                binarysensorList.append(
+                    PolarisBinarySensor(
+                        description=description,
+                        device_friendly_name=device_id,
+                        mqtt_root=mqtt_root,
+                        device_type=device_type,
+                        device_id=device_id
+                    )
+                )
+            # Also create turbo binary sensor for PWD-0804 (172) as it's read-only
+            BINARYSENSOR_TURBO_LC = copy.deepcopy(BINARYSENSOR_TURBO)
+            for description in BINARYSENSOR_TURBO_LC:
                 description.mqttTopicStatus = f"{mqtt_root}/{device_prefix_topic}/{description.mqttTopicStatus}"
                 description.device_prefix_topic = device_prefix_topic
                 binarysensorList.append(

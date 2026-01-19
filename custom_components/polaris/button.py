@@ -67,20 +67,22 @@ async def async_setup_entry(
     buttonList = []
 
     if (device_type in POLARIS_HUMIDDIFIER_TYPE and device_type not in {"835","881"}):
-        BUTTON_HUMIDIFIER_LC = copy.deepcopy(BUTTON_HUMIDIFIER)
-        for description in BUTTON_HUMIDIFIER_LC:
-            description.mqttTopicCommand = f"{mqtt_root}/{device_prefix_topic}/{description.mqttTopicCommand}"
-            description.device_prefix_topic = device_prefix_topic
-            buttonList.append(
-                PolarisButton(
-                    description=description,
-                    device_friendly_name=device_id,
-                    mqtt_root=mqtt_root,
-                    device_type=device_type,
-                    device_id=device_id,
-                    device_prefix_topic=device_prefix_topic,
+        # Skip filter/tank reset buttons for PWD-0804 (devtype 172) as it doesn't have filters
+        if device_type != "172":
+            BUTTON_HUMIDIFIER_LC = copy.deepcopy(BUTTON_HUMIDIFIER)
+            for description in BUTTON_HUMIDIFIER_LC:
+                description.mqttTopicCommand = f"{mqtt_root}/{device_prefix_topic}/{description.mqttTopicCommand}"
+                description.device_prefix_topic = device_prefix_topic
+                buttonList.append(
+                    PolarisButton(
+                        description=description,
+                        device_friendly_name=device_id,
+                        mqtt_root=mqtt_root,
+                        device_type=device_type,
+                        device_id=device_id,
+                        device_prefix_topic=device_prefix_topic,
+                    )
                 )
-            )
     if (device_type in POLARIS_COOKER_TYPE):
         BUTTON_COOKER_LC = copy.deepcopy(BUTTON_COOKER)
         for description in BUTTON_COOKER_LC:

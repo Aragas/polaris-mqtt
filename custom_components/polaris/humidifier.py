@@ -118,8 +118,10 @@ class PolarisHumidifier(PolarisBaseEntity, HumidifierEntity):
         self._attr_unique_id = slugify(f"{device_id}_{description.name}")
         self.entity_id = f"{DOMAIN}.{POLARIS_DEVICE[int(device_type)]['class']}_{POLARIS_DEVICE[int(device_type)]['model']}_{description.name}"
         self._attr_is_on = True
-        self._attr_max_humidity = description.max_humidity
-        self._attr_min_humidity = description.min_humidity
+        # Device 172 (PWD-0804) doesn't support setting target humidity, so don't set min/max
+        if device_type != "172":
+            self._attr_max_humidity = description.max_humidity
+            self._attr_min_humidity = description.min_humidity
         if device_type in POLARIS_HUMIDDIFIER_7_MODE_TYPE:
             self.my_operation_list = description.available_modes
         elif device_type in POLARIS_HUMIDDIFIER_5A_MODE_TYPE:
@@ -148,6 +150,7 @@ class PolarisHumidifier(PolarisBaseEntity, HumidifierEntity):
         self._attr_available = False
         self._attr_current_humidity = self._attr_min_humidity
         self._attr_target_humidity = self._attr_min_humidity
+        self.device_type = device_type
 
 
     async def async_added_to_hass(self):

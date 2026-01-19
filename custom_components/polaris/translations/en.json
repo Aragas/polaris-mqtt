@@ -144,7 +144,7 @@
       "humidifier": {
         "name": "Humidifier",
         "state_attributes": {
-          "my_available_modes": {
+          "mode": {
             "state": {
               "off": "Off",
               "manual": "Manual",

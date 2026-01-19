@@ -148,8 +148,13 @@ class PolarisHumidifier(PolarisBaseEntity, HumidifierEntity):
         self.payload_off=description.payload_off
         self._attr_has_entity_name = True
         self._attr_available = False
-        self._attr_current_humidity = self._attr_min_humidity
-        self._attr_target_humidity = self._attr_min_humidity
+        # Only set humidity attributes if device supports setting target humidity
+        if device_type != "172":
+            self._attr_current_humidity = self._attr_min_humidity
+            self._attr_target_humidity = self._attr_min_humidity
+        else:
+            # For device 172, only track current humidity (read-only)
+            self._attr_current_humidity = 0
         self.device_type = device_type
 
 

@@ -9,6 +9,8 @@
         "state_attributes": {
           "mode": {
             "state": {
+              "off": "mdi:power-off",
+              "manual": "mdi:gesture-tap",
               "auto": "mdi:refresh-auto",
               "baby": "mdi:baby-carriage",
               "boost": "mdi:rocket-launch",

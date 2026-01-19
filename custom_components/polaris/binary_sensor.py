@@ -108,7 +108,7 @@ async def async_setup_entry(
                         device_id=device_id
                     )
                 )
-    if (device_type in POLARIS_HUMIDDIFIER_TYPE and device_type not in {"835","881"}):
+    if (device_type in POLARIS_HUMIDDIFIER_TYPE and device_type not in {"835","881","172"}):
             BINARYSENSOR_WATER_TANK_LC = copy.deepcopy(BINARYSENSOR_WATER_TANK)
             for description in BINARYSENSOR_WATER_TANK_LC:
                 description.mqttTopicStatus = f"{mqtt_root}/{device_prefix_topic}/{description.mqttTopicStatus}"

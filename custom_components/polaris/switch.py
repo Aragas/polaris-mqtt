@@ -135,7 +135,8 @@ async def async_setup_entry(
         # Create switches for all devices
         SWITCHES_ALL_DEVICES_LC = copy.deepcopy(SWITCHES_ALL_DEVICES)
         for description in SWITCHES_ALL_DEVICES_LC:
-          if (device_type != "835" or description.translation_key != "child_lock_switch"):
+          # Skip child_lock for devices 835 and 172 as they don't support it
+          if (device_type not in ("835", "172") or description.translation_key != "child_lock_switch"):
             description.mqttTopicCommand = f"{mqtt_root}/{device_prefix_topic}/{description.mqttTopicCommand}"
             description.mqttTopicCurrentValue = f"{mqtt_root}/{device_prefix_topic}/{description.mqttTopicCurrentValue}"
             description.device_prefix_topic = device_prefix_topic

@@ -146,6 +146,8 @@
         "state_attributes": {
           "my_available_modes": {
             "state": {
+              "off": "Off",
+              "manual": "Manual",
               "auto": "Auto",
               "comfort": "Health",
               "baby": "Baby mode",
@@ -501,6 +503,20 @@
         "state": {
           "on": "Online",
           "off": "Offline"
+        }
+      },
+      "ioniser_binary_sensor": {
+        "name": "Ionisation",
+        "state": {
+          "on": "Running",
+          "off": "Not running"
+        }
+      },
+      "turbo_binary_sensor": {
+        "name": "Turbo mode",
+        "state": {
+          "on": "Active",
+          "off": "Inactive"
         }
       }
     },

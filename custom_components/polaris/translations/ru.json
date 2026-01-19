@@ -146,6 +146,8 @@
         "state_attributes": {
           "mode": {
             "state": {
+              "off": "Выключен",
+              "manual": "Ручной",
               "auto": "Авто",
               "comfort": "Здоровье",
               "baby": "Детский",
@@ -501,6 +503,20 @@
         "state": {
           "on": "В сети",
           "off": "Не в сети"
+        }
+      },
+      "ioniser_binary_sensor": {
+        "name": "Ионизация",
+        "state": {
+          "on": "Работает",
+          "off": "Не работает"
+        }
+      },
+      "turbo_binary_sensor": {
+        "name": "Турбо режим",
+        "state": {
+          "on": "Активен",
+          "off": "Не активен"
         }
       }
     },
